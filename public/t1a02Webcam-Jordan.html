@@ -11,7 +11,7 @@
             padding: 20px;
         }
 
-        video {
+        video, canvas {
             width: 80%;
             max-width: 600px;
             border: 2px solid black;
@@ -32,14 +32,18 @@
     <h1>Webcam Access</h1>
     <p>Click the button below to access your webcam:</p>
     <button onclick="startWebcam()">Start Webcam</button>
+    <button onclick="takePicture()">Take Picture</button>
     <br><br>
     <video id="webcam" autoplay></video>
+    <canvas id="snapshot" style="display:none;"></canvas>
+    <img id="photo" alt="Your snapshot will appear here" style="margin-top:20px;">
 
     <script>
-        function startWebcam() {
-            const video = document.getElementById('webcam');
+        const video = document.getElementById('webcam');
+        const canvas = document.getElementById('snapshot');
+        const photo = document.getElementById('photo');
 
-            // Access the user's webcam
+        function startWebcam() {
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     video.srcObject = stream;
@@ -48,6 +52,19 @@
                     console.error("Error accessing webcam: ", err);
                     alert("Unable to access the webcam.");
                 });
+        }
+
+        function takePicture() {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw the current video frame to the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the canvas to an image and display it
+            const dataURL = canvas.toDataURL('image/png');
+            photo.src = dataURL;
         }
     </script>
 </body>
