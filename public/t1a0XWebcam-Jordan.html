@@ -37,11 +37,16 @@
     <video id="webcam" autoplay></video>
     <canvas id="snapshot" style="display:none;"></canvas>
     <img id="photo" alt="Your snapshot will appear here" style="margin-top:20px;">
+    <br>
+    <a id="download" download="snapshot.png" style="display:none;">
+        <button>Download Picture</button>
+    </a>
 
     <script>
         const video = document.getElementById('webcam');
         const canvas = document.getElementById('snapshot');
         const photo = document.getElementById('photo');
+        const downloadLink = document.getElementById('download');
 
         function startWebcam() {
             navigator.mediaDevices.getUserMedia({ video: true })
@@ -65,6 +70,10 @@
             // Convert the canvas to an image and display it
             const dataURL = canvas.toDataURL('image/png');
             photo.src = dataURL;
+
+            // Enable the download link
+            downloadLink.href = dataURL;
+            downloadLink.style.display = 'block'; // Show the download button
         }
     </script>
 </body>
