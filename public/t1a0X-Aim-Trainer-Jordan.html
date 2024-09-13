@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim Trainer</title>
+    <style>
+        /* General page styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #game-area {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background-color: #ddd;
+            border: 2px solid #333;
+            overflow: hidden;
+        }
+
+        .dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #score {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        #start-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-area"></div>
+    <div id="score">Score: 0</div>
+    <button id="start-btn">Start Aim Trainer</button>
+
+    <script>
+        let gameArea = document.getElementById('game-area');
+        let scoreDisplay = document.getElementById('score');
+        let startBtn = document.getElementById('start-btn');
+        let score = 0;
+        let gameInterval;
+        let dotTimeout;
+        let dotLifetime = 1000; // dot stays for 1 second
+
+        // Function to generate a random dot
+        function generateDot() {
+            let dot = document.createElement('div');
+            dot.classList.add('dot');
+            
+            // Randomize the position within the game area
+            let xPos = Math.random() * (gameArea.offsetWidth - 30);
+            let yPos = Math.random() * (gameArea.offsetHeight - 30);
+            dot.style.left = xPos + 'px';
+            dot.style.top = yPos + 'px';
+
+            // Add click event to the dot
+            dot.addEventListener('click', () => {
+                // Remove dot and increase score
+                gameArea.removeChild(dot);
+                score++;
+                updateScore();
+            });
+
+            // Append the dot to the game area
+            gameArea.appendChild(dot);
+
+            // Remove dot after dotLifetime if not clicked
+            dotTimeout = setTimeout(() => {
+                if (dot.parentNode) {
+                    gameArea.removeChild(dot);
+                }
+            }, dotLifetime);
+        }
+
+        // Update the score display
+        function updateScore() {
+            scoreDisplay.innerText = 'Score: ' + score;
+        }
+
+        // Start the game
+        function startGame() {
+            score = 0;
+            updateScore();
+            startBtn.disabled = true;
+
+            // Create new dots at intervals
+            gameInterval = setInterval(() => {
+                generateDot();
+            }, 1200); // New dot every 1.2 seconds
+        }
+
+        // Stop the game and clear intervals
+        function stopGame() {
+            clearInterval(gameInterval);
+            clearTimeout(dotTimeout);
+            startBtn.disabled = false;
+
+            // Remove any remaining dots
+            while (gameArea.firstChild) {
+                gameArea.removeChild(gameArea.firstChild);
+            }
+        }
+
+        // Start the aim trainer when the button is clicked
+        startBtn.addEventListener('click', () => {
+            stopGame();  // Ensure the previous game is cleared before starting
+            startGame();
+        });
+
+    </script>
+
+</body>
+</html>
