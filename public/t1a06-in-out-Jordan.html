@@ -14,3 +14,63 @@ Input:<input type=text id="myFirstName" value="fred">
   document.getElementById('myDiv01').innerHTML = 'Hello, ' + name + '! Welcome!';
 }">
 <div id="myDiv01">Your greeting will appear here.</div>
+// buh
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Output Example</title>
+    <script>
+        function showValue(id, outputId) {
+            var value = document.getElementById(id).value;
+            document.getElementById(outputId).textContent = value;
+        }
+    </script>
+</head>
+<body>
+
+    <h1>HTML Input Outputs</h1>
+
+    <!-- 1. Text Input -->
+    <label for="textInput">Enter Text: </label>
+    <input type="text" id="textInput" oninput="showValue('textInput', 'textOutput')">
+    <p>Output: <span id="textOutput"></span></p>
+
+    <!-- 2. Password Input -->
+    <label for="passwordInput">Enter Password: </label>
+    <input type="password" id="passwordInput" oninput="showValue('passwordInput', 'passwordOutput')">
+    <p>Output (Password): <span id="passwordOutput"></span></p>
+
+    <!-- 3. Number Input -->
+    <label for="numberInput">Enter Number: </label>
+    <input type="number" id="numberInput" oninput="showValue('numberInput', 'numberOutput')">
+    <p>Output (Number): <span id="numberOutput"></span></p>
+
+    <!-- 4. Email Input -->
+    <label for="emailInput">Enter Email: </label>
+    <input type="email" id="emailInput" oninput="showValue('emailInput', 'emailOutput')">
+    <p>Output (Email): <span id="emailOutput"></span></p>
+
+    <!-- 5. Date Input -->
+    <label for="dateInput">Choose Date: </label>
+    <input type="date" id="dateInput" oninput="showValue('dateInput', 'dateOutput')">
+    <p>Output (Date): <span id="dateOutput"></span></p>
+
+    <!-- 6. Range Input -->
+    <label for="rangeInput">Select Range: </label>
+    <input type="range" id="rangeInput" min="0" max="100" oninput="showValue('rangeInput', 'rangeOutput')">
+    <p>Output (Range): <span id="rangeOutput"></span></p>
+
+    <!-- 7. Color Input -->
+    <label for="colorInput">Pick Color: </label>
+    <input type="color" id="colorInput" oninput="showValue('colorInput', 'colorOutput')">
+    <p>Output (Color): <span id="colorOutput"></span></p>
+
+    <!-- 8. Checkbox Input -->
+    <label for="checkboxInput">Check me: </label>
+    <input type="checkbox" id="checkboxInput" onclick="document.getElementById('checkboxOutput').textContent = this.checked ? 'Checked' : 'Unchecked'">
+    <p>Output (Checkbox): <span id="checkboxOutput"></span></p>
+
+</body>
+</html>
