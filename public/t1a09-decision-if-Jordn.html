@@ -19,7 +19,8 @@ Input:<input type="number" id="myNum1" value="14">
                 Document.getElementById('myDiv01').innerHTML = 'Was expecting Fred >:'
         }
 }"><br>
-<input type=button value="Not Fred" onclick="{
-        let myIn1 = document.getElemntById('myDiv01').innerHTML = '<br>'
-        if (myIn1 ! "Fred"){
-                document.getElementById('myDiv01').innerHTML = 'You're not Fred'
+<input type=button value="Not Fred" on click="{
+        let myIn1 = document.getElementById('myText1').value
+        document.getElementById('myDiv01').innerHTML = '<br>'
+        if (myIn1 ! 'Fred'){
+        document.getElemebtById('myDiv01').innerHTML = 'Where's Fred?'
