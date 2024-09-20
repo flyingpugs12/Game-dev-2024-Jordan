@@ -1,4 +1,21 @@
-Name <input type=text id="mytext01"> <br>
-Number <input type="number" id="mynum01">
-<input button onlick="{
-        if "mytext01"= 'Fred' output 'hi fred'}
+Input:<input type=text id="myText1" value="Fred"> 
+Input:<input type="number" id="myNum1" value="14">
+<div id="myDiv01">...</div>
+
+<input type=button value="Is Fred" on click="{
+        let myIn1 = document.getElementById('myText1').value
+        document.getElementById('myDiv01').innerHTML = '<br>'
+        if (myIn1 == 'Fred'){
+        document.getElemebtById('myDiv01').innerHTML = 'Hi Fred'
+}
+}"><br>
+
+<input type=button value="Is Fred else" onclick="{
+        let myIn1 = document.getElementById('myText1').value
+        document.getElementById('myDiv01').innerHTML = '<br>'
+        if (myIn1 == 'Fred'){
+                document.getElementById('myDiv01').innerHTML = 'Hi Fred'
+        } else {
+                Document.getElementById('myDiv01').innerHTML = 'Was expecting Fred >:'
+        }
+}"><br>
