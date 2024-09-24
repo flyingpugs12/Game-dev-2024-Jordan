@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loop Example</title>
+</head>
+<body>
+    <h1>Looping to Create a List</h1>
+    
+    <ul id="list"></ul>
+
+    <script>
+        // JavaScript to create a loop
+        let items = ["Apple", "Banana", "Cherry", "Date", "Elderberry"];
+
+        // Get the UL element by its ID
+        let listElement = document.getElementById("list");
+
+        // Loop through the array and create a list item for each element
+        for (let i = 0; i < items.length; i++) {
+            let listItem = document.createElement("li"); // Create a new list item
+            listItem.textContent = items[i]; // Set the text of the list item
+            listElement.appendChild(listItem); // Add the list item to the UL element
+        }
+    </script>
+</body>
+</html>
