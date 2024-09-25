@@ -45,3 +45,24 @@ Max loops: <input id="myNum1" type="number" value="4"><br>
     }
     document.getElementById('myDiv01').innerHTML = myTemp;
 ">
+<input type="button" value="Print Prime Numbers" onclick="
+    let myTemp = '';
+    let myMax = parseInt(document.getElementById('myNum1').value);
+
+    function isPrime(num) {
+        if (num < 2) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i === 0) return false;
+        }
+        return true;
+    }
+
+    for (let myLoop = 0; myLoop <= myMax; myLoop++) {
+        if (isPrime(myLoop)) {
+            myTemp += 'Prime number: ' + myLoop + '<br>';
+        }
+    }
+    
+    document.getElementById('myDiv01').innerHTML = myTemp;
+">
+
