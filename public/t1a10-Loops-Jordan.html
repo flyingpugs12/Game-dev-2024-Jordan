@@ -35,3 +35,13 @@ Max loops: <input id="myNum1" type="number" value="4"><br>
     }
     document.getElementById('myDiv01').innerHTML = myTemp;
 ">
+<input type="button" value="Label Odd Numbers as Cool" onclick="
+    let myTemp = '';
+    let myMax = parseInt(document.getElementById('myNum1').value);
+    for (let myLoop = 0; myLoop <= myMax; myLoop++) {
+        if (myLoop % 2 !== 0) {
+            myTemp += 'Loop number ' + myLoop + ': cool<br>';
+        }
+    }
+    document.getElementById('myDiv01').innerHTML = myTemp;
+">
