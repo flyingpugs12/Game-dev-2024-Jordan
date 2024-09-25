@@ -1,35 +1,27 @@
-<h2 align=center›t1a10-loops-by-Fred.html</h2>
+<h2 align="center">t1a10-loops-by-Fred.html</h2>
 
-‹a href="">Good reference to Javascript Loops</a>‹br>
+<a href="">Good reference to Javascript Loops</a><br>
 
-<h4> Example input output code</h4>
+<h4>Example input/output code</h4>
 
-‹pre›
-
+<pre>
+<!-- Example input/output code goes here -->
 </pre>
 
-<h4> Example working code</h4>
+<h4>Example working code</h4>
 
-Max loops: <input id="myNum®1" type=number value="4" ›‹br>
+Max loops: <input id="myNum1" type="number" value="4"><br>
 
-‹ input type=button value="Basic For loop with Decisions" onclick="t
+<input type="button" value="Basic For loop with Decisions" onclick="
+    let myTemp = '';
+    let myMax = parseInt(document.getElementById('myNum1').value);
+    for (let myLoop = 0; myLoop < myMax; myLoop++) {
+        if (myLoop * 2 > myMax) {
+            myTemp += 'cool<br>';
+        }
+        myTemp += 'Loop number: ' + myLoop + '<br>';
+    }
+    document.getElementById('myDiv01').innerHTML = myTemp;
+">
 
-document-getElementById('myDiv01'). innerHTML = "•
-
-let myTemp = *•
-
-let myMax = parseInt(document. getElementById(*myNum®1').value)
-
-for (let myLoop = 0; myLoop < myMax; myLoop++ (
-
-if (myLoop * 2 › myMax) (
-
-my Temp += • cool
-
-my Temp += Loop number: ' + myLoop + '<br>
-
-document. getElementById( 'myDiv01') .innerHTML = my Temp
-
-}">
-
-<div id="myDiv®1"›…</div>
+<div id="myDiv01">…</div>
