@@ -25,3 +25,13 @@ Max loops: <input id="myNum1" type="number" value="4"><br>
 ">
 
 <div id="myDiv01">…</div>
+<input type="button" value="Label Even Numbers as Cool" onclick="
+    let myTemp = '';
+    let myMax = parseInt(document.getElementById('myNum1').value);
+    for (let myLoop = 0; myLoop <= myMax; myLoop++) {
+        if (myLoop % 2 === 0) {
+            myTemp += 'Loop number ' + myLoop + ': cool<br>';
+        }
+    }
+    document.getElementById('myDiv01').innerHTML = myTemp;
+">
