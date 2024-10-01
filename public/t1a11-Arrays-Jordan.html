@@ -1,30 +1,25 @@
 <h1>t1a11-arrays-Jordan.html</h1>
-   <style>
-      h1 {
-       text-align: center; /* This aligns the text in the center */
-     }
-    </style>
 
 <script>
   let myMax = 6
   let myArray = new Array(myMax)
 </script>
 
-  input:<input type=text id="myFirstName" value="fred"<br>
+input:<input type=text id="myFirstName" value="fred"<br>
 
-  <input type=button value="Set Array" onclick="{
+<input type=button value="Set Array" onclick="{
     myArray[0] = 'Fred'
     myArray[1] = 'Mary'
     myArray[2] = 'Peter'
 
     document.getElementById('myDiv01').innerHTML = 'You set the array'
-    }">
-    <input type=button value="Show Array" onclick="{
+}">
+<input type=button value="Show Array" onclick="{
       document.getElementById('myDiv01').innerHTML = ''
       for (myLoop=0; myLoop < 3; myLoop++){
-      document.getElementById('myDiv01').innerHTML += 'myArray[' + myLoop + '] = ' +
-        myArray[myLoop] + '<br>'
-      }
+         document.getElementById('myDiv01').innerHTML += 'myArray[' + myLoop + '] = ' +
+           myArray[myLoop] + '<br>'
+   }
 }"><br>
 
 <div id="myDiv01">...</div>
