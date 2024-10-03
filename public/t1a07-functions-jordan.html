@@ -6,10 +6,26 @@
   }
 </script>
 
-Input: <input type="text" id="myFirstName" value="fred">
+
+Input Name: <input type="text" id="myFirstName" value="fred"><br>
+
+
+Input Number: <input type="number" id="myNumber" value="42"><br>
+
+
+Choose a color: <input type="color" id="myColor" value="#ff0000"><br><br>
+
 <input type="button" value="Show on page" onclick="{
-  myVar('myDiv01').innerHTML = 'Your name is ' + myVar('myFirstName').value;
+  const name = myVar('myFirstName').value;
+  const number = myVar('myNumber').value;
+  const color = myVar('myColor').value;
+  
+  myVar('myDiv01').innerHTML = 'Your name is ' + name + 
+                               ', your number is ' + number +
+                               ', and your color is ' + color;
+  myVar('myDiv01').style.color = color;  // Apply the color to the text
 }">
+
 
 <div id="myDiv01">...</div>
 
