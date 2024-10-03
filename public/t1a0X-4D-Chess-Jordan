@@ -1,2 +1,87 @@
 This is 4 Dimensional chess.
 Good luck.
+<!DOCTYPE html>
+<html>
+<head>
+  <title>4D Chess Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .board { display: grid; grid-template-columns: repeat(8, 50px); }
+    .cell { width: 50px; height: 50px; border: 1px solid black; text-align: center; line-height: 50px; }
+    .white { background-color: white; }
+    .black { background-color: lightgray; }
+  </style>
+</head>
+<body>
+
+<h1>4D Chess Game</h1>
+
+<div id="board-container"></div>
+
+<script>
+  // 4D Chess Board - 8x8x8x8 board
+  const board = [];
+
+  // Initialize 4D board
+  for (let w = 0; w < 8; w++) {
+    board[w] = [];
+    for (let x = 0; x < 8; x++) {
+      board[w][x] = [];
+      for (let y = 0; y < 8; y++) {
+        board[w][x][y] = [];
+        for (let z = 0; z < 8; z++) {
+          board[w][x][y][z] = null; // Empty cell
+        }
+      }
+    }
+  }
+
+  // Sample pieces: P for Pawn, K for King (w,x,y,z) coordinates
+  board[0][0][0][0] = { piece: 'K', color: 'white' };
+  board[7][7][7][7] = { piece: 'K', color: 'black' };
+
+  // Initialize the 3D boards (in each 4th dimension layer)
+  function createBoardLayer(w, x) {
+    const container = document.createElement('div');
+    container.className = 'board';
+    
+    for (let y = 0; y < 8; y++) {
+      for (let z = 0; z < 8; z++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell ' + ((y + z) % 2 === 0 ? 'white' : 'black');
+        
+        const piece = board[w][x][y][z];
+        if (piece) {
+          cell.innerText = piece.piece;
+          cell.style.color = piece.color === 'white' ? 'black' : 'red';
+        }
+
+        container.appendChild(cell);
+      }
+    }
+    return container;
+  }
+
+  // Render the 4D board on the page
+  function render4DBoard() {
+    const boardContainer = document.getElementById('board-container');
+    boardContainer.innerHTML = ''; // Clear previous board
+
+    for (let w = 0; w < 8; w++) {
+      for (let x = 0; x < 8; x++) {
+        const layerTitle = document.createElement('h2');
+        layerTitle.innerText = `4D Layer (w=${w}, x=${x})`;
+        boardContainer.appendChild(layerTitle);
+
+        const boardLayer = createBoardLayer(w, x);
+        boardContainer.appendChild(boardLayer);
+      }
+    }
+  }
+
+  // Initial render
+  render4DBoard();
+</script>
+
+</body>
+</html>
