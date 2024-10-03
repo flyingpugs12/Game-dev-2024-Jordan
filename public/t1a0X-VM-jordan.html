@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Virtual Machine</title>
+</head>
+<body>
+
+<h1>Simple Virtual Machine</h1>
+<pre id="output"></pre>
+
+<script>
+  class VirtualMachine {
+    constructor(memorySize = 256) {
+      // Registers
+      this.registers = { R0: 0, R1: 0 };
+      
+      // Memory (Array of Instructions)
+      this.memory = new Array(memorySize).fill(0);
+      
+      // Program Counter
+      this.pc = 0;
+      
+      // Running state
+      this.running = true;
+    }
+
+    // Instruction Set
+    instructionSet = {
+      1: (arg1, arg2) => { this.registers[arg1] = arg2; },     // LOAD R0/R1, value
+      2: (arg1, arg2) => { this.registers[arg1] += arg2; },     // ADD R0/R1, value
+      3: (arg1, arg2) => { this.registers[arg1] -= arg2; },     // SUB R0/R1, value
+      4: (arg1) => { this.pc = arg1 - 1; },                     // JUMP to address
+      5: () => { this.running = false; },                       // HALT
+    };
+
+    // Load a program into memory
+    loadProgram(program) {
+      for (let i = 0; i < program.length; i++) {
+        this.memory[i] = program[i];
+      }
+    }
+
+    // Fetch the next instruction
+    fetch() {
+      return this.memory[this.pc];
+    }
+
+    // Decode the instruction
+    decode(instruction) {
+      const opcode = instruction[0];      // Operation Code (LOAD, ADD, etc.)
+      const args = instruction.slice(1);  // Arguments (registers, values)
+      return { opcode, args };
+    }
+
+    // Execute the instruction
+    execute({ opcode, args }) {
+      const instruction = this.instructionSet[opcode];
+      if (instruction) {
+        instruction(...args);
+      } else {
+        console.log(`Unknown opcode: ${opcode}`);
+      }
+    }
+
+    // Run the virtual machine
+    run() {
+      while (this.running) {
+        const instruction = this.fetch();  // Fetch
+        const decoded = this.decode(instruction);  // Decode
+        this.execute(decoded);  // Execute
+        this.pc++;  // Move to the next instruction
+        if (this.pc >= this.memory.length) {
+          this.running = false;
+        }
+      }
+
+      // Output final state of registers
+      const output = document.getElementById('output');
+      output.innerText = `Final Registers: ${JSON.stringify(this.registers, null, 2)}`;
+    }
+  }
+
+  // Example Program
+  const program = [
+    [1, 'R0', 10],  // LOAD R0, 10
+    [1, 'R1', 20],  // LOAD R1, 20
+    [2, 'R0', 5],   // ADD R0, 5 (R0 = R0 + 5)
+    [3, 'R1', 5],   // SUB R1, 5 (R1 = R1 - 5)
+    [4, 0],         // JUMP to start (infinite loop)
+    [5],            // HALT
+  ];
+
+  // Create a Virtual Machine and Load the Program
+  const vm = new VirtualMachine();
+  vm.loadProgram(program);
+
+  // Run the VM
+  vm.run();
+
+</script>
+
+</body>
+</html>
