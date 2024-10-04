@@ -25,3 +25,34 @@ Enter a json returning URL: <input type=text id="myText1" value="https://randomf
 You make the JSON show up in the DIV
 
 <div id="myDiv1">...</div>
+<br><br><br>
+
+<h1 align=center>Chatgpt fixed code</h1>
+<h1 style="text-align:center;">t1a13-json-jordan.html</h1>
+
+<script>
+function myShowJSON(myIn){
+  fetch(myIn)
+  .then(response => response.json())
+  .then(data => document.getElementById('myDiv1').innerHTML = `Sent: ${JSON.stringify(data)}`)
+  .catch(error => document.getElementById('myDiv1').innerHTML = `Error: ${error}`);
+}
+</script>
+
+Explanation of JSON compared to JavaScript objects in this textarea.<br>
+
+<textarea cols="70" rows="5">
+</textarea><br><br>
+
+Enter a json returning URL: <input type="text" id="myText1" value="https://randomfox.ca/floof/">
+<input type="button" value="show JSON" onclick="myShowJSON(document.getElementById('myText1').value)"><br><br>
+
+<select size="1" onchange="myShowJSON(this.value)">
+  <option value="https://randomfox.ca/floof/">randomfox</option>
+  <option value="https://dog.ceo/api/breeds/image/random">dog.ceo</option>
+</select><br><br>
+
+You make the JSON show up in the DIV
+
+<div id="myDiv1">...</div>
+
