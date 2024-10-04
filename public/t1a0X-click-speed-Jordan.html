@@ -6,74 +6,103 @@
     <title>Click Speed Test</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             font-family: Arial, sans-serif;
-        }
-
-        .click-area {
-            margin: 20px;
-            padding: 50px;
-            background-color: lightblue;
-            border-radius: 10px;
             text-align: center;
-            cursor: pointer;
-            user-select: none;
+            padding: 20px;
         }
-
-        .info {
-            font-size: 18px;
+        #clickButton {
+            padding: 15px 30px;
+            font-size: 20px;
+            margin: 20px;
+            cursor: pointer;
+        }
+        #resetButton {
+            padding: 10px 20px;
             margin: 10px;
+            font-size: 16px;
+        }
+        #cps {
+            font-size: 24px;
+            margin: 20px;
         }
     </style>
 </head>
 <body>
+
     <h1>Click Speed Test</h1>
-    <div class="info">Click as fast as you can in 5 seconds!</div>
-    <div id="click-area" class="click-area">Click me!</div>
-    <div class="info">Clicks: <span id="click-count">0</span></div>
-    <div class="info">Time left: <span id="time-left">5</span> seconds</div>
+    <p>Click the button as fast as you can!</p>
+
+    <label for="duration">Test Duration (seconds): </label>
+    <input type="number" id="duration" value="5" min="1" max="10" style="font-size: 18px;" />
+    
+    <br><br>
+    
+    <button id="clickButton">Click Me!</button>
+    <br>
+    
+    <p id="result"></p>
+    <p id="cps">CPS: 0</p>
+
+    <button id="resetButton" disabled>Reset</button>
 
     <script>
         let clicks = 0;
-        let timeLeft = 5;
-        let isRunning = false;
+        let startTime = 0;
+        let testDuration = 5;
+        let isTestRunning = false;
 
-        const clickArea = document.getElementById('click-area');
-        const clickCountDisplay = document.getElementById('click-count');
-        const timeLeftDisplay = document.getElementById('time-left');
+        const clickButton = document.getElementById('clickButton');
+        const result = document.getElementById('result');
+        const cpsDisplay = document.getElementById('cps');
+        const resetButton = document.getElementById('resetButton');
+        const durationInput = document.getElementById('duration');
 
-        function startGame() {
-            if (isRunning) return;
+        durationInput.addEventListener('change', () => {
+            testDuration = parseInt(durationInput.value, 10);
+        });
 
-            clicks = 0;
-            timeLeft = 5;
-            isRunning = true;
-            clickCountDisplay.textContent = clicks;
-            timeLeftDisplay.textContent = timeLeft;
+        clickButton.addEventListener('click', () => {
+            if (!isTestRunning) {
+                // Start the test
+                clicks = 0;
+                startTime = Date.now();
+                isTestRunning = true;
+                clickButton.disabled = false;
+                resetButton.disabled = true;
+                result.textContent = '';
+                cpsDisplay.textContent = 'CPS: 0';
 
-            const timer = setInterval(() => {
-                timeLeft--;
-                timeLeftDisplay.textContent = timeLeft;
-
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    isRunning = false;
-                    alert(`Time's up! You clicked ${clicks} times.`);
-                }
-            }, 1000);
-        }
-
-        clickArea.addEventListener('click', () => {
-            if (!isRunning) {
-                startGame();
+                const testInterval = setInterval(() => {
+                    const elapsedTime = (Date.now() - startTime) / 1000;
+                    if (elapsedTime >= testDuration) {
+                        // End the test
+                        clearInterval(testInterval);
+                        const cps = clicks / testDuration;
+                        result.textContent = `Time's up! You clicked ${clicks} times.`;
+                        cpsDisplay.textContent = `CPS: ${cps.toFixed(2)}`;
+                        clickButton.disabled = true;
+                        resetButton.disabled = false;
+                        isTestRunning = false;
+                    } else {
+                        const currentCPS = clicks / elapsedTime;
+                        cpsDisplay.textContent = `CPS: ${currentCPS.toFixed(2)}`;
+                    }
+                }, 100);
             }
-            clicks++;
-            clickCountDisplay.textContent = clicks;
+
+            if (isTestRunning) {
+                clicks++;
+            }
+        });
+
+        resetButton.addEventListener('click', () => {
+            clicks = 0;
+            result.textContent = '';
+            cpsDisplay.textContent = 'CPS: 0';
+            clickButton.disabled = false;
+            resetButton.disabled = true;
         });
     </script>
+
 </body>
 </html>
