@@ -4,6 +4,17 @@
 function myShowJSON(myIn){
   document.getElementById('myDiv1').innerHTML = `Sent: ${myIn} `
   }
+
+
+ async function fetchData() {
+   const response = await fetch('https://dog.ceo/api/breeds/image/random');
+   const data = await response.json();
+   console.log(data);
+   console.log(`data.status: ${data.status}`)
+
+   const myJson = await JSON.stringify(data, null, 2);
+   document.getElementById('myDiv1').innerHTML = myJson
+ }
 </script>
 
 Explanation of JSON compared to javacript objects in this textarea.<br>
@@ -14,7 +25,7 @@ Explanation of JSON compared to javacript objects in this textarea.<br>
 
 
 Enter a json returning URL: <input type=text id="myText1" value="https://randomfox.ca/floof/">
-<input type=button value="show JSON" onclick="{alert('hi')}"><br><br>
+<input type=button value="show JSON" onclick="{fetchData()}"><br><br>
 
 <select size=1 onchange="myShowJSON(this.value)">
 <option value="https://randomfox.ca/floof/">randomfox
@@ -22,6 +33,6 @@ Enter a json returning URL: <input type=text id="myText1" value="https://randomf
 </select><br><br>
 
 
-You make the JSON show up in the DIV
+You make the JSON show up in the DIV, and include many more URL's in the select box<br><br>
 
 <div id="myDiv1">...</div>
