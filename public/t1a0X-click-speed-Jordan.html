@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Speed Test</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .click-area {
+            margin: 20px;
+            padding: 50px;
+            background-color: lightblue;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .info {
+            font-size: 18px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Click Speed Test</h1>
+    <div class="info">Click as fast as you can in 5 seconds!</div>
+    <div id="click-area" class="click-area">Click me!</div>
+    <div class="info">Clicks: <span id="click-count">0</span></div>
+    <div class="info">Time left: <span id="time-left">5</span> seconds</div>
+
+    <script>
+        let clicks = 0;
+        let timeLeft = 5;
+        let isRunning = false;
+
+        const clickArea = document.getElementById('click-area');
+        const clickCountDisplay = document.getElementById('click-count');
+        const timeLeftDisplay = document.getElementById('time-left');
+
+        function startGame() {
+            if (isRunning) return;
+
+            clicks = 0;
+            timeLeft = 5;
+            isRunning = true;
+            clickCountDisplay.textContent = clicks;
+            timeLeftDisplay.textContent = timeLeft;
+
+            const timer = setInterval(() => {
+                timeLeft--;
+                timeLeftDisplay.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    isRunning = false;
+                    alert(`Time's up! You clicked ${clicks} times.`);
+                }
+            }, 1000);
+        }
+
+        clickArea.addEventListener('click', () => {
+            if (!isRunning) {
+                startGame();
+            }
+            clicks++;
+            clickCountDisplay.textContent = clicks;
+        });
+    </script>
+</body>
+</html>
