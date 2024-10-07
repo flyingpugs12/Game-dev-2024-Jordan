@@ -1,39 +1,59 @@
- <h1 align=center>t1a13-json-jordan.html</h1>
+
+<h1 align="center">t1a13-json-jordan.html</h1>
 
 <script>
-function myShowJSON(myIn){
-  document.getElementById('myDiv1').innerHTML = Sent: ${myIn} 
-  }
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const myJson = JSON.stringify(data, null, 2);
+        document.getElementById('myDiv1').innerText = myJson; // Display JSON
+    } catch (error) {
+        document.getElementById('myDiv1').innerText = `Error fetching data: ${error.message}`;
+    }
+}
 
+function handleButtonClick() {
+    const url = document.getElementById('myText1').value;
+    fetchData(url);
+}
 
- async function fetchData() {
-   const response = await fetch('https://dog.ceo/api/breeds/image/random');
-   const data = await response.json();
-   console.log(data);
-   console.log(data.status: ${data.status})
-
-   const myJson = await JSON.stringify(data, null, 2);
-   document.getElementById('myDiv1').innerHTML = myJson
- }
+function handleSelectChange(selectElement) {
+    const url = selectElement.value;
+    fetchData(url);
+}
 </script>
 
-Explanation of JSON compared to javacript objects in this textarea.<br>
-
-<textarea cols=70 ROWS=5>
-
+<p>Explanation of JSON compared to JavaScript objects in this textarea:</p>
+<textarea cols="70" rows="5">
+JSON (JavaScript Object Notation) is a lightweight data-interchange format that is easy for humans to read and write and easy for machines to parse and generate. 
+JSON is often compared to JavaScript objects, but there are some key differences:
+- JSON is a text format that represents data as key-value pairs, whereas JavaScript objects are native to JavaScript and can include functions and other objects.
+- JSON keys must be strings enclosed in double quotes, while JavaScript object keys can be unquoted if they are valid identifiers.
+- JSON does not support comments, while JavaScript objects can contain comments.
 </textarea><br><br>
 
+<p>Enter a JSON returning URL: 
+    <input type="text" id="myText1" value="https://randomfox.ca/floof/">
+    <input type="button" value="Show JSON" onclick="handleButtonClick()">
+</p>
+<br>
 
-Enter a json returning URL: <input type=text id="myText1" value="https://randomfox.ca/floof/">
-<input type=button value="show JSON" onclick="{fetchData()}"><br><br>
+<p>Select a URL: 
+    <select size="1" onchange="handleSelectChange(this)">
+        <option value="https://randomfox.ca/floof/">Random Fox</option>
+        <option value="https://dog.ceo/api/breeds/image/random">Dog CEO</option>
+        <option value="https://api.adviceslip.com/advice">Advice Slip</option>
+        <option value="https://api.coindesk.com/v1/bpi/currentprice/BTC.json">Bitcoin Price</option>
+        <option value="https://api.thecatapi.com/v1/images/search">Cat Image</option>
+    </select>
+</p>
+<br>
 
-<select size=1 onchange="myShowJSON(this.value)">
-<option value="https://randomfox.ca/floof/">randomfox
-<option value="https://dog.ceo/api/breeds/image/random">dog.ceo
-<option value="https://api.adviceslip.com/advice">advice
-</select><br><br>
+<div id="myDiv1" style="white-space: pre-wrap; background: #f4f4f4; padding: 10px; border: 1px solid #ccc;">
+    ...
+</div>
 
+</body>
+</html>
 
-You make the JSON show up in the DIV, and include many more URL's in the select box<br><br>
-
-<div id="myDiv1">...</div>
