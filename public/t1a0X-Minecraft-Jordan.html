@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Minecraft in Browser</title>
+  <style>
+    body, html {
+      margin: 0;
+      overflow: hidden;
+      background-color: #87CEEB;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const gl = canvas.getContext('webgl');
+
+    // Set up canvas size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    if (!gl) {
+      alert('WebGL not supported, try a different browser.');
+    }
+
+    // Set clear color to sky blue
+    gl.clearColor(0.53, 0.81, 0.98, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // Define the vertices of a cube (6 faces, 4 vertices per face)
+    const vertices = [
+      // Front face
+      -1.0, -1.0,  1.0,
+       1.0, -1.0,  1.0,
+       1.0,  1.0,  1.0,
+      -1.0,  1.0,  1.0,
+
+      // Back face
+      -1.0, -1.0, -1.0,
+      -1.0,  1.0, -1.0,
+       1.0,  1.0, -1.0,
+       1.0, -1.0, -1.0,
+
+      // Top face
+      -1.0,  1.0, -1.0,
+      -1.0,  1.0,  1.0,
+       1.0,  1.0,  1.0,
+       1.0,  1.0, -1.0,
+
+      // Bottom face
+      -1.0, -1.0, -1.0,
+       1.0, -1.0, -1.0,
+       1.0, -1.0,  1.0,
+      -1.0, -1.0,  1.0,
+
+      // Right face
+       1.0, -1.0, -1.0,
+       1.0,  1.0, -1.0,
+       1.0,  1.0,  1.0,
+       1.0, -1.0,  1.0,
+
+      // Left face
+      -1.0, -1.0, -1.0,
+      -1.0, -1.0,  1.0,
+      -1.0,  1.0,  1.0,
+      -1.0,  1.0, -1.0,
+    ];
+
+    // Define colors for each face
+    const faceColors = [
+      [1.0, 0.0, 0.0, 1.0], // Front face: red
+      [0.0, 1.0, 0.0, 1.0], // Back face: green
+      [0.0, 0.0, 1.0, 1.0], // Top face: blue
+      [1.0, 1.0, 0.0, 1.0], // Bottom face: yellow
+      [1.0, 0.0, 1.0, 1.0], // Right face: purple
+      [0.0, 1.0, 1.0, 1.0], // Left face: cyan
+    ];
+
+    let colors = [];
+    faceColors.forEach(color => {
+      colors = colors.concat(color, color, color, color);
+    });
+
+    // Create and bind buffer for vertices
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+    // Create and bind buffer for colors
+    const colorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+
+    // Define shaders
+    const vsSource = `
+      attribute vec4 aVertexPosition;
+      attribute vec4 aVertexColor;
+      varying lowp vec4 vColor;
+      void main(void) {
+        gl_Position = aVertexPosition;
+        vColor = aVertexColor;
+      }
+    `;
+
+    const fsSource = `
+      varying lowp vec4 vColor;
+      void main(void) {
+        gl_FragColor = vColor;
+      }
+    `;
+
+    // Create shader program
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vsSource);
+    gl.compileShader(vertexShader);
+
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fsSource);
+    gl.compileShader(fragmentShader);
+
+    const shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+
+    gl.useProgram(shaderProgram);
+
+    // Bind attributes
+    const positionAttributeLocation = gl.getAttribLocation(shaderProgram, 'aVertexPosition');
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.vertexAttribPointer(positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(positionAttributeLocation);
+
+    const colorAttributeLocation = gl.getAttribLocation(shaderProgram, 'aVertexColor');
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.vertexAttribPointer(colorAttributeLocation, 4, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(colorAttributeLocation);
+
+    // Render the scene
+    function render() {
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 24);
+      requestAnimationFrame(render);
+    }
+
+    render();
+  </script>
+</body>
+</html>
