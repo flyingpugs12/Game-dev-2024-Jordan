@@ -87,18 +87,18 @@
             if(direction === "DOWN") snakeY += box;
 
             // Check if the snake eats any food
+            let eatenFood = false;
             for (let i = 0; i < food.length; i++) {
                 if (snakeX === food[i].x && snakeY === food[i].y) {
                     score++;
                     food.splice(i, 1); // Remove the food that was eaten
                     generateFood(1); // Add one new food item
+                    eatenFood = true; // Mark that the snake has eaten food
                 }
             }
 
-            // If no food was eaten, remove the tail
-            if (food.length === 0) {
-                generateFood(5); // Re-generate 5 food items when all are eaten
-            } else {
+            // If the snake didn't eat food, remove the tail
+            if (!eatenFood) {
                 snake.pop();
             }
 
@@ -127,6 +127,10 @@
 
         // Slow down the snake (200ms interval)
         let game = setInterval(drawGame, 200);
+    </script>
+</body>
+</html>
+
     </script>
 </body>
 </html>
