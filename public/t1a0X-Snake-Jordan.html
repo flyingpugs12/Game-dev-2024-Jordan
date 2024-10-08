@@ -29,22 +29,7 @@
         const box = 20;
         let snake = [{x: 9 * box, y: 10 * box}];
         let direction = "";
-        let score = 0;
-
-        // Increase the number of food items
-        let food = [];
-
-        // Function to generate random food positions
-        function generateFood(count) {
-            for (let i = 0; i < count; i++) {
-                food.push({
-                    x: Math.floor(Math.random() * 19 + 1) * box,
-                    y: Math.floor(Math.random() * 19 + 1) * box
-                });
-            }
-        }
-
-        generateFood(5); // Generate 5 food items
+        let food = {x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box};
 
         document.addEventListener("keydown", changeDirection);
 
@@ -71,11 +56,9 @@
                 ctx.strokeRect(snake[i].x, snake[i].y, box, box);
             }
 
-            // Draw the food items
+            // Draw the food
             ctx.fillStyle = "red";
-            for (let i = 0; i < food.length; i++) {
-                ctx.fillRect(food[i].x, food[i].y, box, box);
-            }
+            ctx.fillRect(food.x, food.y, box, box);
 
             // Move the snake
             let snakeX = snake[0].x;
@@ -86,31 +69,20 @@
             if(direction === "RIGHT") snakeX += box;
             if(direction === "DOWN") snakeY += box;
 
-            // Check if the snake eats any food
-            let eatenFood = false;
-            for (let i = 0; i < food.length; i++) {
-                if (snakeX === food[i].x && snakeY === food[i].y) {
-                    score++;
-                    food.splice(i, 1); // Remove the food that was eaten
-                    generateFood(1); // Add one new food item
-                    eatenFood = true; // Mark that the snake has eaten food
-                }
+            // Check if the snake eats the food
+            if(snakeX === food.x && snakeY === food.y) {
+                snake.push({}); // Increase the snake's length
+                food = {x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box}; // Regenerate food
+            } else {
+                snake.pop(); // Remove the tail
             }
 
-            // If the snake didn't eat food, remove the tail
-            if (!eatenFood) {
-                snake.pop();
-            }
-
-            let newHead = {
-                x: snakeX,
-                y: snakeY
-            };
+            let newHead = {x: snakeX, y: snakeY};
 
             // Game over conditions
             if(snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
                 clearInterval(game);
-                alert("Game Over! Your score is " + score);
+                alert("Game Over!");
             }
 
             snake.unshift(newHead);
@@ -127,10 +99,6 @@
 
         // Slow down the snake (200ms interval)
         let game = setInterval(drawGame, 200);
-    </script>
-</body>
-</html>
-
     </script>
 </body>
 </html>
