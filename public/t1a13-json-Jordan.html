@@ -54,6 +54,38 @@ JSON is often compared to JavaScript objects, but there are some key differences
     ...
 </div>
 
+<script>
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const myJson = JSON.stringify(data, null, 2);
+        document.getElementById('myDiv1').innerText = myJson; // Display JSON
+
+        // Check for image URLs or jokes and display them
+        if (data.image || data.url) {
+            const imgSrc = data.image || data.url;
+            const imgElement = document.createElement('img');
+            imgElement.src = imgSrc;
+            imgElement.alt = 'Image from JSON';
+            imgElement.style.maxWidth = '300px';
+            document.getElementById('myDiv1').appendChild(imgElement);
+        }
+
+        if (data.joke || data.slip || data.advice) {
+            const jokeText = data.joke || data.slip?.advice || data.advice;
+            const jokeElement = document.createElement('p');
+            jokeElement.innerText = `Joke/Advice: ${jokeText}`;
+            jokeElement.style.color = '#006400';
+            document.getElementById('myDiv1').appendChild(jokeElement);
+        }
+    } catch (error) {
+        document.getElementById('myDiv1').innerText = `Error fetching data: ${error.message}`;
+    }
+}
+</script>
+
 </body>
 </html>
+
 
