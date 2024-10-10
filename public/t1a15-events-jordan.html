@@ -1,7 +1,8 @@
 <h1 align=center>t1a15-events-jordan.html</h1>
+
     <script>
         function handleOnLoad() {
-            alert("Page is loaded!");
+            document.getElementById("status").innerText = "Page is loaded!";
         }
 
         function handleOnFocus() {
@@ -17,19 +18,21 @@
         }
 
         function handleOnClick() {
-            alert("Button clicked!");
+            document.getElementById("status").innerText = "Button clicked!";
         }
 
         function handleOnDblClick() {
-            alert("Button double-clicked!");
+            document.getElementById("status").innerText = "Button double-clicked!";
         }
 
         function handleOnMouseOver() {
             document.getElementById("hoverText").style.color = "red";
+            document.getElementById("status").innerText = "Text hovered!";
         }
 
         function handleOnMouseOut() {
             document.getElementById("hoverText").style.color = "black";
+            document.getElementById("status").innerText = "Mouse left the text!";
         }
 
         function handleOnSelect() {
@@ -37,20 +40,20 @@
         }
 
         function handleOnTouch() {
-            alert("Touched!");
+            document.getElementById("status").innerText = "Box touched!";
         }
     </script>
 </head>
 <body onload="handleOnLoad()">
     <h1>Event Handlers in HTML</h1>
 
-    
+   
     <label for="textInput">Focus/Blur Event (Click in and out of this input):</label>
     <input type="text" id="textInput" onfocus="handleOnFocus()" onblur="handleOnBlur()" onchange="handleOnChange()">
 
     <br><br>
 
-    
+ 
     <button onclick="handleOnClick()">Click Me!</button>
 
     <br><br>
@@ -60,17 +63,17 @@
 
     <br><br>
 
- 
+    
     <p id="hoverText" onmouseover="handleOnMouseOver()" onmouseout="handleOnMouseOut()">Hover over this text!</p>
 
     <br><br>
 
-
+    
     <textarea onselect="handleOnSelect()" rows="4" cols="50">Select some text from here!</textarea>
 
     <br><br>
 
-    
+   
     <p id="status">Status: None</p>
 
     
@@ -78,4 +81,3 @@
 
 </body>
 </html>
-
