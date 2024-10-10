@@ -42,28 +42,35 @@
         function handleOnTouch() {
             document.getElementById("status").innerText = "Box touched!";
         }
+
+    
+        function updateMousePosition(event) {
+            const x = event.clientX;
+            const y = event.clientY;
+            document.getElementById("mousePosition").innerText = `Mouse Position: X = ${x}, Y = ${y}`;
+        }
     </script>
 </head>
-<body onload="handleOnLoad()">
+<body onload="handleOnLoad()" onmousemove="updateMousePosition(event)">
     <h1>Event Handlers in HTML</h1>
 
-   
+ 
     <label for="textInput">Focus/Blur Event (Click in and out of this input):</label>
     <input type="text" id="textInput" onfocus="handleOnFocus()" onblur="handleOnBlur()" onchange="handleOnChange()">
 
     <br><br>
 
- 
+  
     <button onclick="handleOnClick()">Click Me!</button>
 
     <br><br>
 
-   
+
     <button ondblclick="handleOnDblClick()">Double-click Me!</button>
 
     <br><br>
 
-    
+   
     <p id="hoverText" onmouseover="handleOnMouseOver()" onmouseout="handleOnMouseOut()">Hover over this text!</p>
 
     <br><br>
@@ -73,10 +80,12 @@
 
     <br><br>
 
-   
     <p id="status">Status: None</p>
 
-    
+ 
+    <p id="mousePosition">Mouse Position: X = 0, Y = 0</p>
+
+
     <div ontouchstart="handleOnTouch()" style="width:200px;height:200px;background-color:lightgray;">Touch this box on a touch-enabled device</div>
 
 </body>
