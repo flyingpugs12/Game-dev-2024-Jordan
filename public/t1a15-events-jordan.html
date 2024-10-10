@@ -1,1 +1,76 @@
+<h1 align=center>t1a15-events-jordan.html</h1>
+    <title>Event Handlers Demo</title>
+    <script>
+        function handleOnLoad() {
+            alert("Page is loaded!");
+        }
+
+        function handleOnFocus() {
+            document.getElementById("status").innerText = "Input field is focused!";
+        }
+
+        function handleOnBlur() {
+            document.getElementById("status").innerText = "Input field is blurred!";
+        }
+
+        function handleOnChange() {
+            document.getElementById("status").innerText = "Input field has changed!";
+        }
+
+        function handleOnClick() {
+            alert("Button clicked!");
+        }
+
+        function handleOnDblClick() {
+            alert("Button double-clicked!");
+        }
+
+        function handleOnMouseOver() {
+            document.getElementById("hoverText").style.color = "red";
+        }
+
+        function handleOnMouseOut() {
+            document.getElementById("hoverText").style.color = "black";
+        }
+
+        function handleOnSelect() {
+            document.getElementById("status").innerText = "Text selected!";
+        }
+
+        function handleOnTouch() {
+            alert("Touched!");
+        }
+    </script>
+</head>
+<body onload="handleOnLoad()">
+    <h1>Event Handlers in HTML</h1>
+
+    <label for="textInput">Focus/Blur Event (Click in and out of this input):</label>
+    <input type="text" id="textInput" onfocus="handleOnFocus()" onblur="handleOnBlur()" onchange="handleOnChange()">
+
+    <br><br>
+
+   
+    <button onclick="handleOnClick()" ondblclick="handleOnDblClick()">Click or Double-click Me!</button>
+
+    <br><br>
+
+ 
+    <p id="hoverText" onmouseover="handleOnMouseOver()" onmouseout="handleOnMouseOut()">Hover over this text!</p>
+
+    <br><br>
+
+    
+    <textarea onselect="handleOnSelect()" rows="4" cols="50">Select some text from here!</textarea>
+
+    <br><br>
+
+
+    <p id="status">Status: None</p>
+
+ 
+    <div ontouchstart="handleOnTouch()" style="width:200px;height:200px;background-color:lightgray;">Touch this box on a touch-enabled device</div>
+
+</body>
+</html>
 
