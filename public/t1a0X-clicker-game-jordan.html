@@ -7,32 +7,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             margin: 0;
-            padding: 20px;
+            background-color: #f4f4f9;
         }
-        h1 {
-            margin-bottom: 10px;
-        }
-        .box {
+        .game-box {
             width: 150px;
             height: 150px;
             background-color: #007bff;
-            margin: 20px auto;
-            cursor: pointer;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             color: white;
-            font-size: 24px;
-            border-radius: 10px;
-        }
-        .store {
-            margin-top: 20px;
-        }
-        .item {
-            margin: 10px 0;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 20px;
         }
         button {
             padding: 10px 20px;
@@ -43,66 +37,71 @@
             cursor: pointer;
             font-size: 16px;
         }
-        button:hover {
-            background-color: #218838;
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        #points, #autoclicker-cost {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Box Clicker Game</h1>
-    <div class="box" id="box">Click me!</div>
-    <h2>Points: <span id="points">0</span></h2>
-
-    <div class="store">
-        <h3>Store</h3>
-        <div class="item">
-            <button onclick="buyAutoClicker()">Buy Auto Clicker (Cost: 50)</button>
-            <span>Auto Clickers: <span id="autoClickers">0</span></span>
-        </div>
+    <div class="game-box" onclick="clickBox()">
+        Click Me!
     </div>
+    <div id="points">Points: 0</div>
+    <div id="autoclicker-cost">Auto-clicker Cost: 100</div>
+    <button id="buy-autoclicker" onclick="buyAutoClicker()" disabled>Buy Auto-clicker</button>
 
     <script>
         let points = 0;
         let autoClickers = 0;
-        let autoClickerCost = 50;
+        let autoClickerCost = 100;
+        let autoClickerInterval = null;
 
-        const pointsDisplay = document.getElementById('points');
-        const autoClickersDisplay = document.getElementById('autoClickers');
-
-        // Click the box to earn points
-        document.getElementById('box').addEventListener('click', function() {
+        // Function to handle box click
+        function clickBox() {
             points++;
-            updatePoints();
-        });
+            document.getElementById('points').innerText = `Points: ${points}`;
+            updateButtonState();
+        }
 
-        // Buy auto-clickers to automatically earn points
+        // Function to buy an auto-clicker
         function buyAutoClicker() {
             if (points >= autoClickerCost) {
                 points -= autoClickerCost;
                 autoClickers++;
-                autoClickersDisplay.innerText = autoClickers;
-                autoClickerCost = Math.floor(autoClickerCost * 1.2); // Increase cost by 20% after each purchase
-                updatePoints();
-                startAutoClickers();
-            } else {
-                alert("Not enough points to buy an Auto Clicker!");
+
+                // Increase the auto-clicker cost
+                autoClickerCost = Math.floor(autoClickerCost * 1.5);
+                document.getElementById('autoclicker-cost').innerText = `Auto-clicker Cost: ${autoClickerCost}`;
+
+                // Start auto-clicking if this is the first auto-clicker
+                if (autoClickers === 1) {
+                    startAutoClicking();
+                }
+
+                document.getElementById('points').innerText = `Points: ${points}`;
+                updateButtonState();
             }
         }
 
-        // Function to update the points display
-        function updatePoints() {
-            pointsDisplay.innerText = points;
-        }
-
-        // Start the auto-clickers to click the box automatically
-        function startAutoClickers() {
-            setInterval(function() {
+        // Function to start auto-clicking
+        function startAutoClicking() {
+            autoClickerInterval = setInterval(() => {
                 points += autoClickers;
-                updatePoints();
-            }, 1000); // Add points every second based on the number of auto-clickers
+                document.getElementById('points').innerText = `Points: ${points}`;
+                updateButtonState();
+            }, 1000); // Auto-click once every second
         }
 
+        // Function to enable/disable the "Buy Auto-clicker" button based on points
+        function updateButtonState() {
+            const buyButton = document.getElementById('buy-autoclicker');
+            buyButton.disabled = points < autoClickerCost;
+        }
     </script>
 
 </body>
