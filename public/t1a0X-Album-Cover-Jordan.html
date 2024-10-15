@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #album-info {
+            text-align: center;
+        }
+        img {
+            width: 300px;
+            height: 300px;
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 1em;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Search for a Music Album</h1>
+    <input type="text" id="album-search" placeholder="Enter album name">
+    <button onclick="searchAlbum()">Search</button>
+
+    <div id="album-info">
+        <!-- Album details will be displayed here -->
+    </div>
+
+    <script>
+        const clientId = 'YOUR_SPOTIFY_CLIENT_ID';
+        const clientSecret = 'YOUR_SPOTIFY_CLIENT_SECRET';
+
+        // Get Spotify access token
+        async function getAccessToken() {
+            const result = await fetch('https://accounts.spotify.com/api/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
+                },
+                body: 'grant_type=client_credentials'
+            });
+            const data = await result.json();
+            return data.access_token;
+        }
+
+        // Search for an album using Spotify API
+        async function searchAlbum() {
+            const albumName = document.getElementById('album-search').value;
+            const token = await getAccessToken();
+
+            const result = await fetch(`https://api.spotify.com/v1/search?q=${albumName}&type=album&limit=1`, {
+                method: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            const data = await result.json();
+            const album = data.albums.items[0];
+            displayAlbumInfo(album);
+        }
+
+        // Display album details on the webpage
+        function displayAlbumInfo(album) {
+            const albumInfo = `
+                <h2>${album.name}</h2>
+                <h3>By ${album.artists[0].name}</h3>
+                <img src="${album.images[0].url}" alt="Album cover">
+            `;
+            document.getElementById('album-info').innerHTML = albumInfo;
+        }
+    </script>
+
+</body>
+</html>
