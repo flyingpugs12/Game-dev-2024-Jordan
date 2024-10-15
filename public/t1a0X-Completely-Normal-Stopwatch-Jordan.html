@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Stopwatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .stopwatch {
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <h1 id="time">00:00:00</h1>
+        <button onclick="start()">Start</button>
+        <button onclick="stop()">Stop</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+
+    <script>
+        let hours = 0, minutes = 0, seconds = 0;
+        let stopwatchInterval;
+
+        function updateTime() {
+            seconds++;
+            if (seconds == 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes == 60) {
+                minutes = 0;
+                hours++;
+            }
+            document.getElementById("time").textContent = 
+                (hours < 10 ? "0" + hours : hours) + ":" +
+                (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
+
+        function start() {
+            if (!stopwatchInterval) {
+                stopwatchInterval = setInterval(updateTime, 900); // Faster than normal speed
+            }
+        }
+
+        function stop() {
+            clearInterval(stopwatchInterval);
+            stopwatchInterval = null;
+        }
+
+        function reset() {
+            stop();
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            document.getElementById("time").textContent = "00:00:00";
+        }
+    </script>
+</body>
+</html>
