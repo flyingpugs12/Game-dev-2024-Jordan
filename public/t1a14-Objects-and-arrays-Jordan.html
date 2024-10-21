@@ -1,21 +1,47 @@
-<h1 align=center>t1a14-objects-and-arrays-fred.html</h1>
+<h1 align="center">t1a14-objects-and-arrays-fred.html</h1>
 
-Show your research about objects and arrays in the textarea here<br>
-<textarea> rows=4 cols=70>
-  let myArray = [5, 2, 8, 1];
-  let myObject = {name: 'John', age: 30, profession: 'Developer'};
+    <textarea rows="4" cols="70">
+      let myArray = [5, 2, 8, 1];
+      let myObject = {name: 'John', age: 30, profession: 'Developer'};
 
-let myObject = {
-  name: 'Alice',
-  hobbies: ['reading', 'coding', 'hiking'], //Array inside object
-};
+      let myObject = {
+        name: 'Alice',
+        hobbies: ['reading', 'coding', 'hiking'], 
+      };
 
-let myArray = [ 
-  { name: 'Bob', age: 28 }, // Object inside array
-  { name: 'Charlie', age: 32 }
-];
+      let myArray = [ 
+        { name: 'Bob', age: 28 }, 
+        { name: 'Charlie', age: 32 }
+      ];
+    </textarea><br><br>
 
-</textarea><br><br>
+    <button id="btnArray">Array with an Object Inside of It</button>
+    <button id="btnObject">Object with an Array in It</button>
+
+    <div id="displayArea" style="margin-top: 20px; border: 1px solid black; padding: 10px;"></div>
+
+    <script>
+        const myArray = [
+            { name: 'Bob', age: 28 },
+            { name: 'Charlie', age: 32 }
+        ];
+
+        const myObject = {
+            name: 'Alice',
+            hobbies: ['reading', 'coding', 'hiking']
+        };
+
+        document.getElementById('btnArray').addEventListener('click', function() {
+            document.getElementById('displayArea').innerText = JSON.stringify(myArray, null, 2);
+        });
+
+        document.getElementById('btnObject').addEventListener('click', function() {
+            document.getElementById('displayArea').innerText = JSON.stringify(myObject, null, 2);
+        });
+    </script>
+</body>
+</html>
+
 
 
 Make 2 buttons and a div. The first button labelled "Array with Object in it" and the 2nd button labelled "Object with Array in it"<br><br>
