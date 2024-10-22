@@ -1,43 +1,69 @@
 <h1 align=center>t1a17-move-Jordan</h1>
 
+<style>
+  #controlPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 220px;
+    margin: auto;
+    position: relative;
+  }
 
-<script>
+  #upButton {
+    display: block;
+    margin-bottom: 10px;
+  }
 
-//global variables
-let myClock02
+  #leftButton {
+    display: inline-block;
+    margin-right: 10px;
+  }
 
-</script>
+  #rightButton {
+    display: inline-block;
+    margin-left: 10px;
+  }
 
+  #downButton {
+    display: block;
+    margin-top: 10px;
+  }
+</style>
 
-<input type=button id="myButton02" value="Image Right" onclick="{
-  document.getElementById('myImage01').style.left =
-parseInt(document.getElementById('myImage01').style.left) + 10 + 'px'
-}"><br><br>
+<div id="controlPanel">
+  <input type="button" id="upButton" value="Image Up" onclick="{
+    document.getElementById('myImage01').style.top =
+    parseInt(document.getElementById('myImage01').style.top) - 10 + 'px'
+  }"><br>
 
-<input type=button id="myButton01" value="Image Left" onclick="{
-  document.getElementById('myImage01').style.left =
-parseInt(document.getElementById('myImage01').style.left) - 10 + 'px'
-}"><br><br>
+  <div>
+    <input type="button" id="leftButton" value="Image Left" onclick="{
+      document.getElementById('myImage01').style.left =
+      parseInt(document.getElementById('myImage01').style.left) - 10 + 'px'
+    }">
 
-<input type=button value="Auto Move Right" onclick="{
+    <input type="button" id="rightButton" value="Image Right" onclick="{
+      document.getElementById('myImage01').style.left =
+      parseInt(document.getElementById('myImage01').style.left) + 10 + 'px'
+    }">
+  </div>
+
+  <input type="button" id="downButton" value="Image Down" onclick="{
+    document.getElementById('myImage01').style.top =
+    parseInt(document.getElementById('myImage01').style.top) + 10 + 'px'
+  }">
+</div>
+
+<br><br>
+
+<input type="button" value="Auto Move Right" onclick="{
   document.getElementById('myImage01').style.left = 0
   clearInterval(myClock02)
   myClock02 = setInterval(function(){
     document.getElementById('myButton02').click()
-  },  30)   // activate click every 30 ms (milliseconds)
-
+  }, 30)
 }"><br><br>
 
-<input type=button id="myButton03" value="Image Up" onclick="{
-  document.getElementById('myImage01').style.top =
-    parseInt(document.getElementById('myImage01').style.top) - 10 + 'px'
-}"><br><br>
-
-<input type=button id="myButton04" value="Image Down" onclick="{
-  document.getElementById('myImage01').style.top =
-    parseInt(document.getElementById('myImage01').style.top) + 10 + 'px'
-}"><br><br>
-
-
-<img id="myImage01" style="position:relative; width:200px; height:160px; top:0px;
-left:0px;" src="https://pbs.twimg.com/media/GGnzs4LbAAAo7sy.jpg">
+<img id="myImage01" style="position:relative; width:200px; height:160px; top:0px; left:0px;" src="https://pbs.twimg.com/media/GGnzs4LbAAAo7sy.jpg">
