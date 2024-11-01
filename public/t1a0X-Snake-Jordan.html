@@ -30,6 +30,8 @@
         let snake = [{x: 9 * box, y: 10 * box}];
         let direction = "";
         let food = {x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box};
+        let lastTime = 0;
+        const speed = 100; // milliseconds between moves
 
         document.addEventListener("keydown", changeDirection);
 
@@ -45,47 +47,52 @@
             }
         }
 
-        function drawGame() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function drawGame(timestamp) {
+            if (timestamp - lastTime >= speed) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw the snake
-            for(let i = 0; i < snake.length; i++) {
-                ctx.fillStyle = (i === 0) ? "green" : "white";
-                ctx.fillRect(snake[i].x, snake[i].y, box, box);
-                ctx.strokeStyle = "red";
-                ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+                // Draw the snake
+                for(let i = 0; i < snake.length; i++) {
+                    ctx.fillStyle = (i === 0) ? "green" : "white";
+                    ctx.fillRect(snake[i].x, snake[i].y, box, box);
+                    ctx.strokeStyle = "red";
+                    ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+                }
+
+                // Draw the food
+                ctx.fillStyle = "red";
+                ctx.fillRect(food.x, food.y, box, box);
+
+                // Move the snake
+                let snakeX = snake[0].x;
+                let snakeY = snake[0].y;
+
+                if(direction === "LEFT") snakeX -= box;
+                if(direction === "UP") snakeY -= box;
+                if(direction === "RIGHT") snakeX += box;
+                if(direction === "DOWN") snakeY += box;
+
+                // Check if the snake eats the food
+                if(snakeX === food.x && snakeY === food.y) {
+                    food = {x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box}; // Regenerate food
+                } else {
+                    snake.pop(); // Remove the tail
+                }
+
+                let newHead = {x: snakeX, y: snakeY};
+
+                // Game over conditions
+                if(snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
+                    alert("Game Over!");
+                    return; // Stop the game loop
+                }
+
+                snake.unshift(newHead);
+
+                lastTime = timestamp;
             }
 
-            // Draw the food
-            ctx.fillStyle = "red";
-            ctx.fillRect(food.x, food.y, box, box);
-
-            // Move the snake
-            let snakeX = snake[0].x;
-            let snakeY = snake[0].y;
-
-            if(direction === "LEFT") snakeX -= box;
-            if(direction === "UP") snakeY -= box;
-            if(direction === "RIGHT") snakeX += box;
-            if(direction === "DOWN") snakeY += box;
-
-            // Check if the snake eats the food
-            if(snakeX === food.x && snakeY === food.y) {
-                snake.push({}); // Increase the snake's length
-                food = {x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box}; // Regenerate food
-            } else {
-                snake.pop(); // Remove the tail
-            }
-
-            let newHead = {x: snakeX, y: snakeY};
-
-            // Game over conditions
-            if(snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
-                clearInterval(game);
-                alert("Game Over!");
-            }
-
-            snake.unshift(newHead);
+            requestAnimationFrame(drawGame);
         }
 
         function collision(head, snake) {
@@ -97,8 +104,8 @@
             return false;
         }
 
-        // Slow down the snake (200ms interval)
-        let game = setInterval(drawGame, 200);
+        // Start the game loop
+        requestAnimationFrame(drawGame);
     </script>
 </body>
 </html>
