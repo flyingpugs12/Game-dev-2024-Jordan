@@ -6,7 +6,7 @@
     let mySpeed01 = 400;
 </script>
 
-<h1 align="center">t2a19-move-background-fred.html</h1>
+<h1 align="center">ta19-move-background-fred.html</h1>
 
 <input id="myButton01" type="button" value="background move left" onclick="{
     let myTemp = '100px 0px';
@@ -33,9 +33,9 @@
     }, mySpeed01);
 }">
 
-<input id="myButton02" type="button" value="Image Right" onclick="{
+<input id="myButton02" type="button" value="Image Left" onclick="{
     document.getElementById('myImage01').style.left = 
-    parseInt(document.getElementById('myImage01').style.left) + 10 + 'px';
+    parseInt(document.getElementById('myImage01').style.left) - 10 + 'px';
 }"><br><br>
 
 <input type="button" value="Auto Move Left" onclick="{
@@ -46,5 +46,3 @@
 }">
 
 <img id="myImage01" style="position:relative; width:100px; height:80px; top:0px; left:0px;" src="myImage01.jpg">
-
-    
