@@ -1,4 +1,4 @@
-<h1 align=center>t2a20-spy-jordan.html</h1>
+<h1 align="center">t2a20-spy-jordan.html</h1>
 <textarea id="myArea01" rows="4" cols="70">Hello how are you</textarea><br>
 
 <input type="button" value="encrypt" onclick="
@@ -45,11 +45,11 @@
     if (myTemp == '=') { myTemp = ']' }
     if (myTemp == '[') { myTemp = '`' }
     if (myTemp == ']') { myTemp = ';' }
-    if (myTemp == '\') { myTemp = '-' }
-    if (myTemp == ';') { myTemp = ''' }
-    if (myTemp == ''') { myTemp = ',' }
+    if (myTemp == '\\') { myTemp = '-' }
+    if (myTemp == ';') { myTemp = '\'' }
+    if (myTemp == '\'') { myTemp = ',' }
     if (myTemp == ',') { myTemp = '.' }
-    if (myTemp == '.') { myTemp = '\' }
+    if (myTemp == '.') { myTemp = '\\' }
     myString[myLoop] = myTemp;
   }
   document.getElementById('myArea02').value = myString.join('')
@@ -62,4 +62,5 @@
 }"><br><br>
 
 <textarea id="myArea03" rows="4" cols="70"></textarea>
+
 <!-- balls -->
