@@ -49,7 +49,7 @@
     if (myTemp == ';') { myTemp = ''' }
     if (myTemp == ''') { myTemp = ',' }
     if (myTemp == ',') { myTemp = '.' }
-    if (myTemp == '.') { myTemp = '.\' }
+    if (myTemp == '.') { myTemp = '\' }
     myString[myLoop] = myTemp;
   }
   document.getElementById('myArea02').value = myString.join('')
