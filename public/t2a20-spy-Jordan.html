@@ -40,8 +40,16 @@
     if (myTemp == '7') { myTemp = '1' }
     if (myTemp == '8') { myTemp = '4' }
     if (myTemp == '9') { myTemp = '6' }
-    if (myTemp == '0') { myTemp = '0' }
-    
+    if (myTemp == '`') { myTemp = '[' }
+    if (myTemp == '-') { myTemp = '/' }
+    if (myTemp == '=') { myTemp = ']' }
+    if (myTemp == '[') { myTemp = '`' }
+    if (myTemp == ']') { myTemp = ';' }
+    if (myTemp == '\') { myTemp = '-' }
+    if (myTemp == ';') { myTemp = ''' }
+    if (myTemp == ''') { myTemp = ',' }
+    if (myTemp == ',') { myTemp = '.' }
+    if (myTemp == '.') { myTemp = '.\' }
     myString[myLoop] = myTemp;
   }
   document.getElementById('myArea02').value = myString.join('')
