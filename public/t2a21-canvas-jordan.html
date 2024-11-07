@@ -60,3 +60,11 @@ You use loops and variables to make fast fancy drawings <br><br>
     myContext.arc(200, 250, 40, 0, 2 * Math.PI);
     myContext.stroke();
 }">
+<h4>Click all the smile buttons to make a smile</h4>
+<input type=button value=".smile(200, 250, 40, 0, 2 * Math.PI)" onclick="{
+    myContext.beginPath();
+    myContext.lineWidth = 10;
+    myContext.strokeStyle = 'black';
+    myContext.arc(400, 250, 40, 0, 2 * Math.PI);
+    myContext.stroke();
+}"
