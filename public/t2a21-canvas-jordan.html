@@ -53,4 +53,10 @@ You use loops and variables to make fast fancy drawings <br><br>
     myContext.fillRect(100, 300, 200, 400);
 }">
 
-
+<input type=button value=".smile(95, 50, 40, 0, 2 * Math.PI)" onclick="{
+    myContext.beginPath();
+    myContext.lineWidth = 10;
+    myContext.strokeStyle = 'black';
+    myContext.arc(95, 50, 40, 0, 2 * Math.PI);
+    myContext.stroke();
+}">
