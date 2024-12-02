@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Avoidance Game</title>
-    <style>
+<style>
         body {
             margin: 0;
             overflow: hidden;
@@ -22,7 +18,7 @@
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
-    // Set canvas size
+    
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -42,7 +38,7 @@
 
     let gameRunning = true;
 
-    // Listen for keyboard input
+  
     const keys = {};
     window.addEventListener("keydown", (e) => keys[e.key] = true);
     window.addEventListener("keyup", (e) => keys[e.key] = false);
@@ -103,18 +99,18 @@
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw and update player
+       
         drawRect(player);
         updatePlayer();
 
-        // Draw and update obstacles
+       
         obstacles.forEach(drawRect);
         updateObstacles();
 
         requestAnimationFrame(gameLoop);
     }
 
-    // Start game
+    
     setInterval(createObstacle, 1000);
     gameLoop();
 </script>
