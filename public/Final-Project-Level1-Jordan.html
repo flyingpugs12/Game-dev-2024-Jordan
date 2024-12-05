@@ -108,6 +108,12 @@
         ctx.fillText(`Game Over! Score: ${score}`, canvas.width / 2, canvas.height / 2);
     }
 
+    function checkNextLevel() {
+        if (score >= 10) {
+            window.location.href = "https://www.google.com";
+        }
+    }
+
     function gameLoop() {
         if (!gameRunning) {
             displayGameOver();
@@ -124,12 +130,13 @@
 
         displayScore();
 
+        checkNextLevel();
+
         requestAnimationFrame(gameLoop);
     }
 
     setInterval(createObstacle, 1000);
 
-    
     const scoreInterval = setInterval(() => {
         if (gameRunning) {
             score++;
@@ -142,5 +149,3 @@
 </script>
 </body>
 </html>
-
-
