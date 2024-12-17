@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platformer Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        canvas {
+            display: block;
+            background: #87CEEB;
+        }
+
+        #start-game {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            text-align: center;
+        }
+
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="start-game">
+        <button onclick="startGame()">Start Game</button>
+    </div>
+    <div id="game-over">
+        <p>Game Over!</p>
+        <p>High Score: <span id="highScore">0</span></p>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const gravity = 0.6;
+        let isJumping = false;
+        let obstacles = [];
+        let gameOver = false;
+        let score = 0;
+        let highScore = 0;
+
+        const player = {
+            x: 50,
+            y: canvas.height - 170,
+            width: 50,
+            height: 50,
+            color: "#ff5733",
+            dy: 0,
+            jumpPower: -12,
+            grounded: true,
+            image: new Image()
+        };
+        player.image.src = 'https://preview.redd.it/tbhombjwla7e1.png?auto=webp&s=34cbeffb25c746546c8df485a8dccd3eb5870396';
+
+        const floor = [];
+        const blockSize = 50;
+        const floorHeight = 120;
+
+        function generateFloor() {
+            for (let x = 0; x < canvas.width + blockSize * 10; x += blockSize) {
+                const column = [];
+                for (let y = canvas.height - floorHeight; y < canvas.height; y += blockSize) {
+                    const oreChance = Math.random();
+                    if (y < canvas.height - floorHeight + blockSize / 2) {
+                        column.push("grass");
+                    } else if (oreChance < 0.1) {
+                        column.push("gold");
+                    } else if (oreChance < 0.2) {
+                        column.push("iron");
+                    } else {
+                        column.push("stone");
+                    }
+                }
+                floor.push(column);
+            }
+        }
+
+        function drawFloor(offset) {
+            const startIdx = Math.floor(offset / blockSize);
+            const visibleColumns = Math.ceil(canvas.width / blockSize) + 1;
+
+            for (let i = 0; i < visibleColumns; i++) {
+                const columnIdx = (startIdx + i) % floor.length;
+                const column = floor[columnIdx];
+                for (let y = 0; y < column.length; y++) {
+                    const tileType = column[y];
+                    switch (tileType) {
+                        case "grass":
+                            ctx.fillStyle = "#228B22";
+                            break;
+                        case "gold":
+                            ctx.fillStyle = "#FFD700";
+                            break;
+                        case "iron":
+                            ctx.fillStyle = "#B0C4DE";
+                            break;
+                        case "stone":
+                            ctx.fillStyle = "#8B4513";
+                            break;
+                    }
+                    const xPos = (i * blockSize) - (offset % blockSize);
+                    const yPos = canvas.height - floorHeight + y * blockSize;
+                    ctx.fillRect(xPos, yPos, blockSize, blockSize);
+                }
+            }
+        }
+
+        function drawPlayer() {
+            if (player.image.complete) {
+                ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
+            } else {
+                ctx.fillStyle = player.color;
+                ctx.fillRect(player.x, player.y, player.width, player.height);
+            }
+        }
+
+        function createObstacle() {
+            const size = Math.random() * 50 + 20;
+            const gap = Math.max(player.width * 2, Math.random() * 100 + 150);
+
+            obstacles.push({
+                x: canvas.width,
+                y: canvas.height - 120 - size,
+                width: 30,
+                height: size,
+                color: "#2c3e50",
+                type: "block",
+            });
+
+            if (Math.random() > 0.5) {
+                obstacles.push({
+                    x: canvas.width + 40,
+                    y: canvas.height - 120 - size - gap,
+                    width: 30,
+                    height: size,
+                    color: "#27ae60",
+                    type: "gap",
+                });
+            }
+        }
+
+        function drawObstacles() {
+            obstacles.forEach((obstacle) => {
+                ctx.fillStyle = obstacle.color;
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+            });
+        }
+
+        function updateObstacles() {
+            obstacles.forEach((obstacle) => {
+                obstacle.x -= 5;
+            });
+
+            obstacles = obstacles.filter((obstacle) => obstacle.x + obstacle.width > 0);
+
+            if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvas.width - 300) {
+                createObstacle();
+            }
+        }
+
+        function updatePlayer() {
+            if (!player.grounded) {
+                player.dy += gravity;
+                player.y += player.dy;
+
+                if (player.y + player.height >= canvas.height - 120) {
+                    player.y = canvas.height - player.height - 120;
+                    player.dy = 0;
+                    player.grounded = true;
+                }
+            }
+        }
+
+        function detectCollision() {
+            for (const obstacle of obstacles) {
+                if (
+                    player.x < obstacle.x + obstacle.width &&
+                    player.x + player.width > obstacle.x &&
+                    player.y < obstacle.y + obstacle.height &&
+                    player.y + player.height > obstacle.y
+                ) {
+                    endGame();
+                } else if (obstacle.x + obstacle.width < player.x && !obstacle.passed) {
+                    obstacle.passed = true;
+                    score++;
+                }
+            }
+        }
+
+        function drawScore() {
+            ctx.fillStyle = "#000";
+            ctx.font = "20px Arial";
+            ctx.fillText(`Score: ${score}`, 10, 30);
+        }
+
+        function endGame() {
+            gameOver = true;
+            highScore = Math.max(highScore, score);
+            document.getElementById("highScore").innerText = highScore;
+            document.getElementById("game-over").style.display = "block";
+        }
+
+        function restartGame() {
+            player.y = canvas.height - player.height - 120;
+            player.dy = 0;
+            player.grounded = true;
+            obstacles = [];
+            score = 0;
+            gameOver = false;
+            document.getElementById("game-over").style.display = "none";
+            loop();
+        }
+
+        let floorOffset = 0;
+
+        function loop() {
+            if (gameOver) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            floorOffset += 5;
+            drawFloor(floorOffset);
+            drawPlayer();
+            updatePlayer();
+            drawObstacles();
+            updateObstacles();
+            detectCollision();
+            drawScore();
+
+            requestAnimationFrame(loop);
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.code === "Space" && player.grounded) {
+                player.dy = player.jumpPower;
+                player.grounded = false;
+            }
+        });
+
+        function startGame() {
+            document.getElementById("start-game").style.display = "none";
+            generateFloor();
+            createObstacle();
+            loop();
+        }
+    </script>
+</body>
+</html>
