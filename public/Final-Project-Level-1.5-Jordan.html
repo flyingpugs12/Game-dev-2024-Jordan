@@ -1,13 +1,12 @@
-<body id="myBody" style="background-repeat:repeat; background-size: 80%" background="myBackground01.jpg">
-
-<h1 align=center><font color=red>T4A04 Maze by Fred</font></h1>
 
 
 <script>
 
    // global variables here
+
    let myGlobalX = 0
    let myClock
+   let myScore = 10
 
 
    // global functions here
@@ -30,22 +29,32 @@ function myHitOther(my1,my2){
 
 
 function myCheckHit(){
+   document.all.myText01.value = myScore  // show the present score
 
    if ( myHitOther('myImg01','myImg02') ){
-       //alert('you lose')
       document.getElementById('myImg01').style.left = '20px'
+      document.all.myText01.value = 'You hit myImg02'  
+      myScore -= 1
    }   
    
    if ( myHitOther('myImg01','myImg03') ){
        //alert('you lose')
       document.getElementById('myImg01').style.left = '20px'
+      document.all.myText01.value = 'You hit myImg03'  
+      myScore -= 1
    }   
    
-
+  // you LOSE refresh the page
+   if (myScore <= 0){
+    document.all.myText01.value = 'You Lose scrore at zero!'  
+    alert('Sorry you lose')
+    location.reload()
+   }
 
    // YOU WIN and go to next level!
 
    if ( myHitOther('myImg01','myImg04') ){
+      document.all.myText01.value = 'You hit myImg04 and you win the game!'  
        alert('You Win, now go to the next level')
       document.getElementById('myImg01').style.left = '20px'
       location = 'https://www.google.ca'
@@ -60,6 +69,33 @@ function myCheckHit(){
 
 
 
+
+<body id="myBody" style="background-repeat:repeat; background-size: 80%" background="myBackground01.jpg"  onkeydown="{
+
+   document.all.myText01.value = event.key
+
+   if (event.key == 'd') {  // d = go right
+     document.getElementById('myImg01').style.left = parseInt(document.getElementById('myImg01').style.left) + 10 + 'px'
+   }   
+
+   if (event.key == 's') {   // s = go down
+      document.getElementById('myImg01').style.top = parseInt(document.getElementById('myImg01').style.top) + 10 + 'px'
+   }  
+
+   // put more here
+
+
+
+  myCheckHit()     // checks for all collisions
+}">
+
+
+
+
+
+<h1 align=center><font color=Yellow>T4A05 Template with WASD by Fred</font></h1>
+
+<input id="myText01" type=text value="" size=50 placeholder="Feedback here"><br>
 
 <input type=button value="Auto Background Left" onclick="{
   clearInterval(myClock)
@@ -83,39 +119,11 @@ function myCheckHit(){
   myCheckHit()     // checks for all collisions
 }"><br><br>
 
-<body id="myBody" style="background-repeat:repeat; background-size: 80%" background="myBackground01.jpg"  onkeydown="{
-
-   document.all.myText01.value = event.key
-
-   if (event.key == 'd') {  // d = go right
-     document.getElementById('myImg01').style.left = parseInt(document.getElementById('myImg01').style.left) + 10 + 'px'
-   }   
-
-   if (event.key == 's') {   // s = go down
-      document.getElementById('myImg01').style.top = parseInt(document.getElementById('myImg01').style.top) - 10 - 'px'
-   }  
-
-   if (event.key == 'w') {   // w = go up
-      document.getElementById('myImg01').style.top = parseInt(document.getElementById('myImg01').style.top) + 10 + 'px'
-   }  
-
-   if (event.key == 'a') {   // a = go left
-      document.getElementById('myImg01').style.left = parseInt(document.getElementById('myImg01').style.left) - 10 - 'px'
-   }  
-
-   // put more here
 
 
 
-  myCheckHit()     // checks for all collisions
-}">
-
-
-
-
-
-<img id="myImg01" src="https://i.pinimg.com/originals/9c/7f/0b/9c7f0b1223e6584ab5ef2e6ed8e8f4f0.jpg"  style="position:absolute; width:100px; height:80px; left: 50px; top:190px;">
-<img id="myImg02" src="https://www.thecompliancecenter.com/wp-content/uploads/cm/d/c/dc2_hi_1.gif"  style="position:absolute; width:100px; height:200px; left:350px; top:90px;">
-<img id="myImg03" src="https://i.pinimg.com/736x/63/91/d4/6391d47ec03aa844555dccba7db5fabf.jpg"  style="position:absolute; width:200px; height:100px; left:500px; top:400px;">
-<img id="myImg04" src="https://www.thecompliancecenter.com/wp-content/uploads/cm/d/c/dc4_hi_3.gif"  style="position:absolute; width:100px; height:80px; left:800px; top:400px;">
+<img id="myImg01" src="myImgNew.jpg"  style="position:absolute; width:100px; height:80px; left: 50px; top:190px;">
+<img id="myImg02" src="myImgNew.jpg"  style="position:absolute; width:100px; height:80px; left:350px; top:190px;">
+<img id="myImg03" src="myImgNew.jpg"  style="position:absolute; width:100px; height:80px; left:500px; top:190px;">
+<img id="myImg04" src="myImgNew.jpg"  style="position:absolute; width:100px; height:80px; left:500px; top:400px;">
 
