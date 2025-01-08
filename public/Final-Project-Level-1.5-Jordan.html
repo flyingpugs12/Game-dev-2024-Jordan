@@ -71,18 +71,7 @@ function myCheckHit(){
 
 }
 // what causes movement prolly
-function animate(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsedTime = (timestamp - startTime) / 1000;
 
-    positionY = amplitude * Math.sin(speed * elapsedTime);
-
-    policeMan.style.transform = `translateY(${positionY}px)`;
-
-    requestAnimationFrame(animate);
-}
-
-requestAnimationFrame(animate);
 
 </script>
 
@@ -155,5 +144,20 @@ requestAnimationFrame(animate);
 <img id="myImg05" src="https://cdn.drawception.com/images/panels/2015/1-7/zSftqHX3Kj-4.png"  style="position:absolute; width:100px; height:80px; left:400px; top:190px;">
 <img id="myImg06" src="https://cdn.drawception.com/images/panels/2015/1-7/zSftqHX3Kj-4.png"  style="position:absolute; width:100px; height:80px; left:500px; top:250px;">
 <img id="myImg04" src="https://www.shutterstock.com/image-vector/handdrawn-rectangular-flag-on-pole-260nw-2265226415.jpg"  style="position:absolute; width:100px; height:80px; left:1600px; top:700px;">
+<script>
+function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsedTime = (timestamp - startTime) / 1000;
+
+    positionY = amplitude * Math.sin(speed * elapsedTime);
+
+    policeMan.style.transform = `translateY(${positionY}px)`;
+
+    requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+   
+   </script>
 
 
