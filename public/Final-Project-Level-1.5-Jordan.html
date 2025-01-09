@@ -10,22 +10,21 @@
   
 
    // global functions here
-function myHitOther(my1,my2){
-   left1   = parseInt(document.getElementById(my1).style.left)
-   right1  = left1 + parseInt(document.getElementById(my1).style.width)
-   top1    = parseInt(document.getElementById(my1).style.top)   
-   bottom1 = top1   + parseInt(document.getElementById(my1).style.height)
-   left2   = parseInt(document.getElementById(my2).style.left)
-   right2  = left2 + parseInt(document.getElementById(my2).style.width)
-   top2    = parseInt(document.getElementById(my2).style.top)   
-   bottom2 = top2   + parseInt(document.getElementById(my2).style.height)
-   if ((right1  >=  left2  ) &&      	   
-       (bottom1 >=  top2   ) &&
-       (left1   <=  right2 ) &&
-       (top1    <=  bottom2) ){
-       return true
-   }
+function myHitOther(my1, my2) {
+    const rect1 = document.getElementById(my1).getBoundingClientRect();
+    const rect2 = document.getElementById(my2).getBoundingClientRect();
+
+    if (
+        rect1.right >= rect2.left &&
+        rect1.bottom >= rect2.top &&
+        rect1.left <= rect2.right &&
+        rect1.top <= rect2.bottom
+    ) {
+        return true;
+    }
+    return false;
 }
+
 
 
 function myCheckHit(){
