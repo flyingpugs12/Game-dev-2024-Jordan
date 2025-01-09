@@ -42,6 +42,16 @@ function myCheckHit(){
       document.all.myText01.value = 'You hit myImg03'  
       myScore -= 1
    }   
+    if ( myHitOther('myImg01','myImg05') ){
+      document.getElementById('myImg01').style.left = '20px'
+      document.all.myText01.value = 'You hit myImg05'  
+      myScore -= 1
+   }   
+    if ( myHitOther('myImg01','myImg06') ){
+      document.getElementById('myImg01').style.left = '20px'
+      document.all.myText01.value = 'You hit myImg06'  
+      myScore -= 1
+   }   
    
   // you LOSE refresh the page
    if (myScore <= 0){
