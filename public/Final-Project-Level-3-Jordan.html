@@ -184,7 +184,7 @@ requestAnimationFrame(animate);
 
 
    function animate2(timestamp) {
-    if (!startTime) startTime = timestamp;
+    if (!startTime) startTime2 = timestamp;
     const elapsedTime = (timestamp - startTime) / 1000;
 
     positionX = amplitude2 * Math.sin(speed * elapsedTime);
