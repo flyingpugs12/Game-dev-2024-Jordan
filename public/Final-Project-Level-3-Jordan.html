@@ -148,7 +148,16 @@ function myCheckHit(){
 <img id="myImg07" src="https://cdn.drawception.com/images/panels/2015/1-7/zSftqHX3Kj-4.png"  style="position:absolute; width:80px; height:800px; left:1500px; top:490px;">
 <img id="myImg04" src="https://www.shutterstock.com/image-vector/handdrawn-rectangular-flag-on-pole-260nw-2265226415.jpg"  style="position:absolute; width:100px; height:80px; left:1600px; top:700px;">
 <script>
-function animate(timestamp) {
+
+       // policeman movie balls
+   const policeMan = document.getElementById("myImg02")
+   let positionY = 0
+   const amplitude = 200
+   const speed = 2
+
+   let startTime = null
+   
+   function animate(timestamp) {
     if (!startTime) startTime = timestamp;
     const elapsedTime = (timestamp - startTime) / 1000;
 
@@ -161,19 +170,22 @@ function animate(timestamp) {
 
 requestAnimationFrame(animate);
 
-    // policeman movie balls
-   const policeMan = document.getElementById("myImg02")
-   let positionY = 0
-   const amplitude = 200
-   const speed = 2
 
-   let startTime = null
+
+      // policeman pt2 
+   const policeMan2 = document.getElementById("myImg07")
+   let positionX = 0
+   const amplitude2 = 200
+   const speed2 = 2
+
+   
+
 
    function animate2(timestamp) {
     if (!startTime) startTime = timestamp;
     const elapsedTime = (timestamp - startTime) / 1000;
 
-    positionY = amplitude * Math.sin(speed * elapsedTime);
+    positionX = amplitude * Math.sin(speed * elapsedTime);
 
     policeMan.style.transform = `translateX(${positionX}px)`;
 
@@ -181,13 +193,5 @@ requestAnimationFrame(animate);
 }
 
 requestAnimationFrame(animate);
-   // policeman pt2 
-   const policeMan2 = document.getElementById("myImg07")
-   let positionX = 0
-   const amplitude = 200
-   const speed = 2
-
-   
-
 
    </script>
